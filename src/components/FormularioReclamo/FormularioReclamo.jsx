@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './FormularioReclamo.scss'
 import Boton from '../Boton/Boton'
 
@@ -28,6 +28,32 @@ const FormularioReclamo = () => {
         //COMPROBACION DATOS
         console.log(data);
     }
+
+    let id = 'DNI41200440'
+
+    const [unidades, setUnidades] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchReclamos() {
+            try{
+                const response = await fetch(`https://localhost:8080/unidades/persona:${id}`)
+                
+                if(!response){
+                    throw new Error("Error")
+                }
+
+                const data = await response.json()
+                setUnidades(data)
+                setLoading(false)
+
+            }catch(error){
+                console.error("Error:", error)
+                setLoading(false)
+            }
+        }
+        fetchReclamos()
+    }, [id])
 
 
     return (
