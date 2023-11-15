@@ -1,0 +1,115 @@
+.card {
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: 28px;
+
+    @media (min-width: 768px) {
+        min-width: 20rem;
+        margin: 1rem;
+    }
+
+
+    &__container {
+        display: block;
+        padding: 30px 20px;
+        background-color: var(--dark-blue);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        overflow: hidden;
+
+        position: relative;
+
+        &_bg {
+            height: 128px;
+            width: 128px;
+            background-color: #f9b234;
+
+            z-index: 1;
+            position: absolute;
+            top: -75px;
+            right: -75px;
+
+            border-radius: 50%;
+
+            -webkit-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            transition: all .5s ease;
+        }
+
+        &_title {
+            min-height: 87px;
+            margin: 0 0 0.5rem;
+
+            overflow: hidden;
+
+            font-weight: bold;
+            font-size: 30px;
+            color: var(--light-blue);
+
+            z-index: 2;
+            position: relative;
+        }
+
+        &_desc {
+            color: var(--white);
+            font-size: .9rem;
+
+            z-index: 2;
+            position: relative;
+        }
+
+        &_date-box {
+            font-size: 18px;
+            color: var(--white);
+            margin-top: 1rem;
+
+            z-index: 2;
+            position: relative;
+        }
+
+        &_date {
+            font-weight: bold;
+            color: var(--light-blue);
+            margin-left: .5rem;
+
+            -webkit-transition: color .5s ease;
+            -o-transition: color .5s ease;
+            transition: color .5s ease
+        }
+
+        &:hover {
+            .card__container_bg {
+                -webkit-transform: scale(10);
+                -ms-transform: scale(10);
+                transform: scale(10);
+            }
+        }
+    }
+
+    .anulado {
+        background-color: #e71b1b;
+    }
+
+    .proceso {
+        background-color: #dbe916;
+    }
+
+    .terminado {
+        background-color: #3dbe2c;
+    }
+
+    .abierto {
+        background-color: #e79528;
+    }
+
+    .nuevo {
+        background-color: #28e7d7;
+    }
+
+    .desestimado {
+        background-color: #848f8e;
+    }
+}

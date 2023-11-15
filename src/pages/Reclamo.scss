@@ -1,0 +1,51 @@
+.reclamos {
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    padding: 4rem 2rem;
+    background: linear-gradient(90deg, var(--light-blue) 0%, var(--medium-blue) 50%, var(--dark-blue) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &__opciones {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        margin: 2rem 0;
+
+        &_title {
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-align: center;
+
+            @media (min-width: 768px) {
+                margin: 0;
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+            align-items: center;
+            width: 40%;
+            justify-content: space-between;
+        }
+    }
+
+    &__table {
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    }
+
+    @media (min-width: 768px) {
+        padding-left: 27%;
+    }
+}

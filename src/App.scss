@@ -1,0 +1,26 @@
+:root {
+  --dark-blue-transparent: rgba(2,0,36,0.9);
+  --dark-blue: #020024;
+  --medium-blue: #100E4D;
+  --white: #fafafa;
+  --gray: #c4c4c4;
+  --light-blue: rgb(88, 83, 190);
+  --light-blue-transparent: rgba(88, 83, 190, 0.9);
+  --error: #8d1b19;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}

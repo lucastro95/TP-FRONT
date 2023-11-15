@@ -1,0 +1,67 @@
+.login {
+    width: 100%;
+    height: 100vh;
+    background-image: url('../assets/bg-login.jpg');
+    background-size: cover;
+    background-position: bottom;
+
+    &__container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(16,14,77,0.87718837535014) 44%, rgba(88,83,190,0) 100%);
+    }
+
+    &__form {
+        background-color: var(--light-blue-transparent);
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @media (min-width: 768px) {
+            width: 30%;
+        }
+
+        &__title {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        &__input {
+            width: 90%;
+            padding: .5rem .3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            
+
+            label {
+                color: var(--medium-blue);
+                margin-bottom: .5rem;
+            }
+
+            input {
+                padding: .5rem .3rem;
+                background: transparent;
+                border: none;
+                border-bottom: 2px solid var(--medium-blue);
+                outline: none;
+                color: var(--white);
+
+                &::placeholder {
+                    color: var(--medium-blue);
+                }
+
+                &::-moz-focus-inner {
+                    border: none;
+                }
+            }
+        }
+    }
+}

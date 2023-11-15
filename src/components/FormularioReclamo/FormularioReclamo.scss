@@ -1,0 +1,59 @@
+.form {
+    width: 80%;
+    height: auto;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    background-color: var(--light-blue-transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    @media (min-width: 768px) {
+        width: 50%;
+        padding: 3rem;
+    }
+
+    &__title {
+        color: var(--white);
+        margin: 1rem 0 2rem 0;
+    }
+
+    &__opcion {
+        width: 100%;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 768px) {
+            width: 60%;
+        }
+
+        label {
+            color: var(--dark-blue);
+            margin-bottom: .3rem;
+        }
+
+        .select {
+            padding: .2rem .5rem;
+            background-color: var(--gray);
+            border: none;
+            color: var(--medium-blue);
+        }
+
+        .input {
+            padding: .2rem .5rem;
+            background-color: var(--gray);
+            border: none;
+            color: var(--medium-blue);
+        }
+
+        .textarea {
+            height: 5rem;
+            padding: .2rem .5rem;
+            background-color: var(--gray);
+            border: none;
+            color: var(--medium-blue);
+        }
+    }
+}

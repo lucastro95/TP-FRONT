@@ -1,0 +1,17 @@
+.row {
+    display: flex;
+    padding: .5rem 0;
+    border: 1px solid var(--medium-blue);
+}
+
+.title {
+    display: flex;
+    padding: .5rem 0;
+    background-color: var(--medium-blue);
+    color: var(--white);
+    border: 1px solid var(--medium-blue);
+}
+
+.column {
+    width: 25%;
+}
