@@ -3,9 +3,10 @@ import './Admin.scss'
 
 import Navbar from '../components/Navbar/Navbar'
 import EdificioCard from '../components/EdificioCard/EdificioCard'
+import Loader from '../components/Loader/Loader'
 
 const Admin = () => {
-  let edificios = []
+  const [edificios, setEdificios] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const Admin = () => {
           throw new Error('error')
         }
         const data = await response.json()
-        edificios = data
+        setEdificios(data)
         setLoading(false)
       } catch (error) {
         console.error("Error:", error)
@@ -29,20 +30,22 @@ const Admin = () => {
 
   return (
     <>
-      {loading ? <p>Cargando datos</p>
-        :
-        (
-          <>
-            <Navbar options={['home', 'reclamos', 'unidades']} admin={true} />
-            <main className='admin'>
-              <h1 className='admin__title'>Una nueva manera de administrar</h1>
-              <div className='admin__container'>
-                {edificios.map(edificio => console.log(edificio))}
-                <EdificioCard id={''} building={''} location={''} />
-              </div>
-            </main>
-          </>
-        )}
+      {loading ? <Loader /> :
+        (<>
+          <Navbar options={['home', 'reclamos', 'unidades']} admin={true} />
+          <main className='admin'>
+            <h1 className='admin__title'>Una nueva manera de administrar</h1>
+            <div className='admin__container'>
+              {
+                edificios.map((edificio) => (
+                  <EdificioCard id={edificio.codigo} building={edificio.nombre} location={edificio.direccion}/>
+                ))
+              }
+            </div>
+          </main>
+        </>
+        )
+      }
     </>
   )
 }
