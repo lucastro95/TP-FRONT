@@ -9,7 +9,7 @@ import Loader from '../components/Loader/Loader'
 const Reclamo = () => {
     const navigate = useNavigate()
 
-    let id = 'DNI41200440'
+    let id = 'DNI39076419'
 
     const handleNuevoReclamo = () => {
         navigate('/reclamos/nuevo')
@@ -29,6 +29,7 @@ const Reclamo = () => {
 
                 const data = await response.json()
                 setReclamos(data)
+                console.log(reclamos);
                 setLoading(false)
 
             }catch(error){
@@ -54,11 +55,7 @@ const Reclamo = () => {
                         reclamos.map((reclamo) => (
                             <ReclamoCard key={reclamo.id}
                                             admin={false} 
-                                            numeroEdificio={reclamo.edificio.codigo} 
-                                            piso={reclamo.unidad.piso} 
-                                            numeroUnidad={reclamo.unidad.numero} 
-                                            descrip={reclamo.descripcion} 
-                                            documento={reclamo.usuario.documento}
+                                            reclamo={reclamo}
                                             ></ReclamoCard>
                         ))
                     }

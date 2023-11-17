@@ -28,6 +28,7 @@ const AdminReclamo = () => {
             }
             const data = await response.json()
             setReclamos(data)
+            console.log(data);
             setLoading(false)
         } catch (error) {
             console.error("Error:", error)
@@ -82,23 +83,13 @@ const AdminReclamo = () => {
                                 reclamos.map((reclamo) => (
                                     <ReclamoCard
                                         admin={true}
-                                        numero={reclamo.numero}
-                                        numeroEdificio={reclamo.edificio.codigo}
-                                        piso={reclamo.unidad.piso}
-                                        numeroUnidad={reclamo.unidad.numero}
-                                        descrip={reclamo.descripcion}
-                                        documento={reclamo.usuario.documento}
+                                        reclamo={reclamo}
                                         key={reclamo.numero}
                                     />
                                 )) :
                                 <ReclamoCard
                                     admin={true}
-                                    numero={reclamos.numero}
-                                    numeroEdificio={reclamos.edificio.codigo}
-                                    piso={reclamos.unidad.piso}
-                                    numeroUnidad={reclamos.unidad.numero}
-                                    descrip={reclamos.descripcion}
-                                    documento={reclamos.usuario.documento}
+                                    reclamo={reclamos}
                                     key={reclamos.numero}
                                 />
                         )}

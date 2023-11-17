@@ -56,9 +56,14 @@
         &_desc {
             color: var(--white);
             font-size: .9rem;
+            text-align: left;
 
             z-index: 2;
             position: relative;
+
+            span {
+                color: var(--light-blue);
+            }
         }
 
         &_date-box {
@@ -93,7 +98,7 @@
         background-color: #e71b1b;
     }
 
-    .proceso {
+    .enProceso {
         background-color: #dbe916;
     }
 

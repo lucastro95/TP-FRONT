@@ -3,65 +3,70 @@
     height: 100vh;
     background-image: url('../assets/bg-login.jpg');
     background-size: cover;
-    background-position: bottom;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    &__container {
+    @media (min-width: 768px) {
+        background-position: center;
+    }
+
+    &__bg {
+        background: linear-gradient(180deg, var(--dark-blue) 0%, var(--dark-blue-transparent) 44%, rgba(88,83,190,0) 100%);
         position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(16,14,77,0.87718837535014) 44%, rgba(88,83,190,0) 100%);
+        top: 0;
+        left: 0;
+        z-index: 1;
     }
 
     &__form {
-        background-color: var(--light-blue-transparent);
-        padding: 2rem 1rem;
+        width: 80%;
+        height: 70vh;
+        background-color: var(--dark-blue-transparent);
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
+        position: relative;
+        z-index: 10;
 
         @media (min-width: 768px) {
             width: 30%;
         }
 
         &__title {
-            color: var(--white);
-            margin-bottom: 1.5rem;
+            color: var(--light-blue);
+            margin-bottom: 2rem;
+
+            @media (min-width: 768px){
+                font-size: 2rem;
+                margin-bottom: 3.5rem;
+            }
         }
 
         &__input {
-            width: 90%;
-            padding: .5rem .3rem;
+            padding: .3rem .5rem;
             margin-bottom: 1rem;
-            display: flex;
-            flex-direction: column;
-            
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid var(--light-blue);
+            color: var(--light-blue);
+            outline: none;
 
-            label {
-                color: var(--medium-blue);
-                margin-bottom: .5rem;
+            @media (min-width: 768px){
+                width: 60%;
+                margin-bottom: 2.5rem;
+                padding: .5rem .7rem;
+                font-size: 1rem;
             }
 
-            input {
-                padding: .5rem .3rem;
-                background: transparent;
-                border: none;
-                border-bottom: 2px solid var(--medium-blue);
+            &:focus {
                 outline: none;
-                color: var(--white);
-
-                &::placeholder {
-                    color: var(--medium-blue);
-                }
-
-                &::-moz-focus-inner {
-                    border: none;
-                }
             }
         }
+
     }
 }
