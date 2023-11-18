@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import './Login.scss';
 
@@ -7,6 +8,7 @@ import Loader from '../components/Loader/Loader.jsx';
 import { useClient } from '../context/UseContext.jsx';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
@@ -52,8 +54,10 @@ const Login = () => {
             } else {
                 if (res.mail === 'admin@borcelle.com') {
                     setClient({ ...res, admin: true });
+                    navigate('./admin/home')
                 } else {
                     setClient({ ...res, admin: false });
+                    navigate('./home')
                 }
             }
         } catch (error) {

@@ -5,10 +5,13 @@ import Hamburger from 'hamburger-react'
 import logo from '../../assets/logo.png'
 import { GoTriangleDown } from 'react-icons/go'
 import { IconContext } from 'react-icons'
+import { useClient } from '../../context/UseContext';
 
 
 const Navbar = ({ options, admin }) => {
     const [isOpen, setOpen] = useState(false)
+
+    const { client } = useClient();
 
     function capitalizarPrimeraLetra(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -20,7 +23,7 @@ const Navbar = ({ options, admin }) => {
                 <Hamburger toggled={isOpen} toggle={setOpen} color='var(--light-blue)' size={28} />
             </div>
             <div className="profile">
-                <h3 className='profile__title'>Bienvenido, usuario</h3>
+                <h3 className='profile__title'>Bienvenido, {client.nombre}</h3>
                 <IconContext.Provider value={{ color: "var(--white)" }}>
                     <GoTriangleDown />
                 </IconContext.Provider>;
