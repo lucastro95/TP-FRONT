@@ -16,7 +16,7 @@ const Login = () => {
         password: '',
     });
 
-    const { client, setClient } = useClient();
+    const { setClient } = useClient();
 
     const handleInput = (e) => {
         const { name, value } = e.target;
