@@ -1,72 +1,94 @@
-import React, { useState } from 'react'
-import Swal from 'sweetalert2'
-import './Login.scss'
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
+import './Login.scss';
 
-import Boton from '../components/Boton/Boton.jsx'
-import Loader from '../components/Loader/Loader.jsx'
+import Boton from '../components/Boton/Boton.jsx';
+import Loader from '../components/Loader/Loader.jsx';
+import { useClient } from '../context/UseContext.jsx';
 
 const Login = () => {
-
-    const [user, setUser] = useState([])
-
-    const [loading, setLoading] = useState(false)
-
+    const [user, setUser] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
-        mail: "",
-        password: ""
-    })
+        mail: '',
+        password: '',
+    });
 
+    const { client, setClient } = useClient();
 
     const handleInput = (e) => {
-        const { name, value } = e.target
-        setData({ ...data, [name]: value })
-    }
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+    };
 
     const handleSumbit = async (e) => {
-        e.preventDefault()
-        if(data.mail === "" || data.password === "") {
+        e.preventDefault();
+
+        if (data.mail === '' || data.password === '') {
             Swal.fire({
-                title: "Error",
-                text: "Se deben llenar todos los campos",
-                icon: "error"
+                title: 'Error',
+                text: 'Se deben llenar todos los campos',
+                icon: 'error',
             });
+            return;
         }
-        fetchUsuario()
-        console.log("user", user)
-    }
 
-    async function fetchUsuario() {
-        //UN GET NO PUEDE TENER BODY -> revisar
+        setLoading(true);
+
         try {
-            const response = await fetch(`https://localhost:8080/personas/${data.mail}:${data.password}`, {
-            });
+            const response = await fetch(`https://localhost:8080/personas/${data.mail}:${data.password}`, {});
             if (!response.ok) {
-                throw new Error('error')
+                throw new Error('error');
             }
-            const res = await response.json()
-            setUser(res)
-            console.log(res)
-            setLoading(false)
+            const res = await response.json();
+            setUser(res);
 
+            if (res.mail === '') {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Usuario y/o constraseña incorrectos',
+                    icon: 'error',
+                });
+            } else {
+                if (res.mail === 'admin@borcelle.com') {
+                    setClient({ ...res, admin: true });
+                } else {
+                    setClient({ ...res, admin: false });
+                }
+            }
         } catch (error) {
-          console.error("Error:", error)
-          setLoading(false)
+            console.error('Error:', error);
+        } finally {
+            setLoading(false);
         }
-      }
+    };
 
     return (
-        <main className='login'>
-            <div className="login__bg">
-            </div>
-            <form className='login__form'>
-                <h2 className='login__form__title'>Iniciar Sesión</h2>
-                <input className='login__form__input' name='mail' type="text" placeholder='Usuario' onChange={handleInput} value={data.mail}/>
-                <input className='login__form__input' name='password' type="password" placeholder='Contraseña' onChange={handleInput} value={data.password}/>
-                <Boton msg="Iniciar Sesión" action={e => handleSumbit(e)}/>
+        <main className="login">
+            <div className="login__bg"></div>
+            <form className="login__form">
+                <h2 className="login__form__title">Iniciar Sesión</h2>
+                <input
+                    className="login__form__input"
+                    name="mail"
+                    type="text"
+                    placeholder="Usuario"
+                    onChange={handleInput}
+                    value={data.mail}
+                />
+                <input
+                    className="login__form__input"
+                    name="password"
+                    type="password"
+                    placeholder="Contraseña"
+                    onChange={handleInput}
+                    value={data.password}
+                />
+                <Boton msg="Iniciar Sesión" action={(e) => handleSumbit(e)} disabled={loading} />
                 {loading && <Loader />}
             </form>
         </main>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

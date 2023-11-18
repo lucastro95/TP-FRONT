@@ -8,7 +8,6 @@ import Loader from '../components/Loader/Loader'
 const AdminReclamo = () => {
     const [reclamos, setReclamos] = useState([])
     const [loading, setLoading] = useState(false)
-    const [placeholder, setPlaceholder] = useState("")
 
     const [form, setForm] = useState({
         tipo: "",
@@ -18,27 +17,6 @@ const AdminReclamo = () => {
     const handleInput = (e) => {
         const { name, value } = e.target
         setForm({ ...form, [name]: value })
-        console.log(form);
-        switch (form.tipo) {
-            case "edificio":
-                setPlaceholder("Ej.: 1")
-                break;
-
-            case "numero":
-                setPlaceholder("Ej.: 1")
-                break;
-
-            case "persona":
-                setPlaceholder("Ej.: DNI33333333")
-                break;
-
-            case "unidad":
-                setPlaceholder("Ej.: edificio,piso,numero")
-                break;
-        
-            default:
-                break;
-        }
     }
 
     async function fetchReclamos(url) {
@@ -60,20 +38,23 @@ const AdminReclamo = () => {
 
     const handleSumbit = (e) => {
         e.preventDefault()
-        let numero
+        let unidad
 
         switch (form.tipo) {
             case "edificio":
-                numero = parseInt(form.dato)
                 fetchReclamos(`https://localhost:8080/reclamos/edificio/${form.dato}`)
                 break;
 
             case "numero":
-                numero = parseInt(form.dato)
                 fetchReclamos(`https://localhost:8080/reclamos/${form.dato}`)
                 break;
 
             case "persona":
+                fetchReclamos(`https://localhost:8080/reclamos/persona:${form.dato}`)
+                break;
+
+            case "unidad":
+                unidad = form.dato.split(';')
                 fetchReclamos(`https://localhost:8080/reclamos/persona:${form.dato}`)
                 break;
 
@@ -96,7 +77,7 @@ const AdminReclamo = () => {
                         <option value="persona">Persona</option>
                         <option value="unidad">Unidad</option>
                     </select>
-                    <input className='reclamos__table__filter' placeholder={placeholder} name='dato' type="text" value={form.dato} onChange={handleInput} />
+                    <input className='reclamos__table__filter' name='dato' type="text" value={form.dato} onChange={handleInput} />
                     <Boton action={e => handleSumbit(e)} msg={"Filtrar"} />
                 </form>
                 <div className="reclamos__table">
