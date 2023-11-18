@@ -12,16 +12,9 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
 
     const [data, setData] = useState({
-        user: "",
+        mail: "",
         password: ""
     })
-
-    const usuarioBody = {
-        mail: "",
-        documento: "",
-        contrasenia: "",
-        nombre: ""
-    }
 
 
     const handleInput = (e) => {
@@ -31,37 +24,30 @@ const Login = () => {
 
     const handleSumbit = async (e) => {
         e.preventDefault()
-        if(data.user === "" || data.password === "") {
+        if(data.mail === "" || data.password === "") {
             Swal.fire({
                 title: "Error",
                 text: "Se deben llenar todos los campos",
                 icon: "error"
-              });
+            });
         }
-        usuarioBody.mail = data.user
-        fetchUsuario(usuarioBody)
-        console.log(data);
+        fetchUsuario()
+        console.log("user", user)
     }
 
-    async function fetchUsuario(body) {
-
-        // UN GET NO PUEDE TENER BODY -> revisar
+    async function fetchUsuario() {
+        //UN GET NO PUEDE TENER BODY -> revisar
         try {
-            const response = await fetch('https://localhost:8080/personas/', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
+            const response = await fetch(`https://localhost:8080/personas/${data.mail}:${data.password}`, {
             });
-  
-          if (!response.ok) {
-            throw new Error('error')
-          }
-          const data = await response.json()
-          setUser(data)
-          console.log(user);
-          setLoading(false)
+            if (!response.ok) {
+                throw new Error('error')
+            }
+            const res = await response.json()
+            setUser(res)
+            console.log(res)
+            setLoading(false)
+
         } catch (error) {
           console.error("Error:", error)
           setLoading(false)
@@ -74,7 +60,7 @@ const Login = () => {
             </div>
             <form className='login__form'>
                 <h2 className='login__form__title'>Iniciar Sesión</h2>
-                <input className='login__form__input' name='user' type="text" placeholder='Usuario' onChange={handleInput} value={data.user}/>
+                <input className='login__form__input' name='mail' type="text" placeholder='Usuario' onChange={handleInput} value={data.mail}/>
                 <input className='login__form__input' name='password' type="password" placeholder='Contraseña' onChange={handleInput} value={data.password}/>
                 <Boton msg="Iniciar Sesión" action={e => handleSumbit(e)}/>
                 {loading && <Loader />}
