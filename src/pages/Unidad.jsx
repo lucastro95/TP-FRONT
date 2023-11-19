@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar/Navbar'
 import { useParams } from 'react-router-dom'
 import Loader from '../components/Loader/Loader'
 import Boton from '../components/Boton/Boton'
+import Swal from 'sweetalert2'
 
 const Unidad = () => {
     let { id, piso, numero } = useParams()
@@ -11,6 +12,18 @@ const Unidad = () => {
     const [loading, setLoading] = useState(false)
     const [duenios, setDuenios] = useState([])
     const [inquilinos, setInquilinos] = useState([])
+
+    const [data, setData] = useState({
+            id: "",
+            numero: numero,
+            piso: piso,
+            edificio: {
+                codigo: id
+            },
+            persona: {
+                documento: ""
+            }
+    })
 
     useEffect(() => {
         async function fetchDuenios() {
@@ -47,6 +60,114 @@ const Unidad = () => {
         fetchInquilinos()
     }, [id, piso, numero])
 
+    const popupPersona = (url) => {
+        Swal.fire({
+            title: "Ingrese el DNI de la persona",
+            input: "text",
+            inputAttributes: {
+              autocapitalize: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Agregar",
+            showLoaderOnConfirm: true,
+            preConfirm: async (persona) => {
+              try {
+                data.persona.documento = persona
+                const response = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) {
+                  return Swal.showValidationMessage(`
+                    ${JSON.stringify(await response.json())}
+                  `);
+                }
+              } catch (error) {
+                Swal.showValidationMessage(`
+                  Request failed: ${error}
+                `);
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            
+            }
+          });
+    }
+
+    const handleAgregar = (e) => {
+        e.preventDefault()
+        popupPersona("https://localhost:8080/unidades/agregar/inquilino")
+    }
+
+    const handleAlquilar = (e) => {
+        e.preventDefault()
+        popupPersona("https://localhost:8080/unidades/alquilar")
+    }
+
+    const handleTransferir = (e) => {
+        e.preventDefault()
+        popupPersona("https://localhost:8080/unidades/transferir")
+    }
+
+    const handleLiberar = async (e) => {
+        try{
+            data.persona.documento = ""
+            const response = await fetch("https://localhost:8080/unidades/liberar", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            })
+            
+            if(!response){
+                throw new Error("Error")
+            }
+            Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            setLoading(false)
+        }catch(error){
+            console.error("Error:", error)
+            setLoading(false)
+        }
+    }
+
+    const handleHabitar = async (e) => {
+        try{
+            data.persona.documento = ""
+            const response = await fetch("https://localhost:8080/unidades/habitar", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            })
+            
+            if(!response){
+                throw new Error("Error")
+            }
+            Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            setLoading(false)
+        }catch(error){
+            console.error("Error:", error)
+            setLoading(false)
+        }
+    }
+
     return (
         <>
             <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
@@ -62,11 +183,13 @@ const Unidad = () => {
                                 <h3 className='unidad__subtitle'>Inquilinos</h3>
                                 {inquilinos.map((inquilino) => <p key={inquilino.documento} className='unidad__subtitle__item'>Nombre: {inquilino.nombre}<br />Documento: {inquilino.documento}</p>)}
                             </div>
-                            <Boton msg={'Agregar inquilino'} />
-                            <Boton msg={'Alquilar unidad'} />
-                            <Boton msg={'Transferir unidad'} />
-                            <Boton msg={'Liberar unidad'} />
-                            <Boton msg={'Habitar unidad'} />
+                            <div className="unidad__botones">
+                                <Boton msg={'Agregar inquilino'} action={e => handleAgregar(e)}/>
+                                <Boton msg={'Alquilar unidad'} action={e => handleAlquilar(e)}/>
+                                <Boton msg={'Transferir unidad'} action={e => handleTransferir(e)}/>
+                                <Boton msg={'Liberar unidad'} action={e => handleLiberar(e)}/>
+                                <Boton msg={'Habitar unidad'} action={e => handleHabitar(e)}/>
+                            </div>
                         </>
                     )}
             </main>
