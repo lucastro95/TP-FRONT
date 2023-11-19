@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar/Navbar'
 import ReclamoCard from '../components/ReclamoCard/ReclamoCard'
 import Boton from '../components/Boton/Boton'
 import Loader from '../components/Loader/Loader'
+import Swal from 'sweetalert2'
 
 const AdminReclamo = () => {
     const [reclamos, setReclamos] = useState([])
@@ -28,10 +29,13 @@ const AdminReclamo = () => {
             }
             const data = await response.json()
             setReclamos(data)
-            console.log(data);
             setLoading(false)
         } catch (error) {
-            console.error("Error:", error)
+            Swal.fire({
+                title: 'Error',
+                text: 'No existe un reclamo con esa información',
+                icon: 'error',
+            });
             setLoading(false)
         }
     }
@@ -55,7 +59,7 @@ const AdminReclamo = () => {
 
             case "unidad":
                 unidad = form.dato.split(';')
-                fetchReclamos(`https://localhost:8080/reclamos/persona:${form.dato}`)
+                fetchReclamos(`https://localhost:8080/reclamos/unidad/codigo:${unidad[0]}/piso:${unidad[1]}/numero:${unidad[2]}`)
                 break;
 
             default:
@@ -66,7 +70,7 @@ const AdminReclamo = () => {
 
     return (
         <>
-            <Navbar options={['home', 'reclamos', 'unidades']} admin={true} />
+            <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
             <main className='reclamos'>
                 <form className='reclamos__table'>
                     <h2 className='reclamos__table__title'>Filtrar por:</h2>

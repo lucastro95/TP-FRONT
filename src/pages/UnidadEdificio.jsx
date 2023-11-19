@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './UnidadEdificio.scss'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import UnidadRow from '../components/UnidadRow/UnidadRow';
 import Loader from '../components/Loader/Loader';
@@ -35,13 +35,15 @@ const UnidadEdificio = () => {
             {loading ? <Loader /> :
                 (
                     <>
-                        <Navbar options={['home', 'reclamos', 'unidades']} admin={true} />
+                        <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
                         <main className='unidad'>
                             <h2 className='unidad__title'>Unidades del edificio:</h2>
                             <div className="unidad__table">
                                 <UnidadRow id='ID' piso='Piso' numero='Numero' habitado='Habitado' title={true} />
                                 {unidades.map((unidad) => (
-                                    <UnidadRow id={unidad.id} piso={unidad.piso} numero={unidad.numero} habitado={unidad.habitado ? 'S' : 'N'} />
+                                    <Link to={`/admin/unidad/${id}/${unidad.piso}/${unidad.numero}`}>
+                                        <UnidadRow id={unidad.id} piso={unidad.piso} numero={unidad.numero} habitado={unidad.habitado ? 'S' : 'N'} key={unidad.id} />
+                                    </Link>
                                 ))}
                             </div>
                         </main>

@@ -32,13 +32,13 @@ const Admin = () => {
     <>
       {loading ? <Loader /> :
         (<>
-          <Navbar options={['home', 'reclamos', 'unidades']} admin={true} />
+          <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
           <main className='admin'>
             <h1 className='admin__title'>Una nueva manera de administrar</h1>
             <div className='admin__container'>
               {
                 edificios.map((edificio) => (
-                  <EdificioCard id={edificio.codigo} building={edificio.nombre} location={edificio.direccion}/>
+                  <EdificioCard id={edificio.codigo} building={edificio.nombre} location={edificio.direccion} key={edificio.codigo} />
                 ))
               }
             </div>

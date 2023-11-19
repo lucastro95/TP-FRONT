@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 import './FormularioReclamo.scss'
 import Boton from '../Boton/Boton'
 import Loader from '../Loader/Loader'
+import { useClient } from '../../context/UseContext';
+import Swal from 'sweetalert2';
 
 const FormularioReclamo = () => {
 
+    const { client } = useClient();
+
     const [data, setData] = useState({
         usuario: {
-            documento: "DNI41200440"
+            documento: client.documento
         },
         unidad: "",
         edificio: {
@@ -41,17 +45,17 @@ const FormularioReclamo = () => {
             }));
         }
     }
-    
-    const handleFile = (e) => {
-        const imgData = e.target.files[0]
-        const formData = new FormData()
-        formData.append('image', imgData)
-        setData({...data, img: formData})
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        //COMPROBACION DATOS
+        if(data.descripcion === '' || data.ubicacion === '' || data.descripcion === '' || data.imagen === '') {
+            Swal.fire({
+                title: 'Error',
+                text: 'Se deben llenar todos los campos',
+                icon: 'error',
+            });
+            return
+        }
         try {
             await fetchNuevoReclamo();
         } catch (error) {
@@ -60,14 +64,13 @@ const FormularioReclamo = () => {
         console.log(data);
     }
 
-    let mail = 'gian@gmail.com'
     const [unidades, setUnidades] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         async function fetchUnidadesPersona() {
             try{
-                const response = await fetch(`https://localhost:8080/personas/habilitado:${mail}`)
+                const response = await fetch(`https://localhost:8080/personas/habilitado:${client.mail}`)
                 
                 if(!response){
                     throw new Error("Error")
@@ -83,7 +86,7 @@ const FormularioReclamo = () => {
             }
         }
         fetchUnidadesPersona()
-    }, [mail])
+    }, [client.mail])
 
     async function fetchNuevoReclamo() {
         fetch(`https://localhost:8080/reclamos/agregar`, {
@@ -131,7 +134,7 @@ const FormularioReclamo = () => {
             </div>
             <div className="form__opcion">
                 <label htmlFor="imagenes">Imágenes:</label>
-                <input type="file" name="imagenes" id="imagenes" accept="image/png, image/jpeg" onChange={handleFile} />
+                <input className='input' type="text" name="ubicacion" id="ubicacion" onChange={handleInput} />
             </div>
             <Boton msg='Iniciar Reclamo' action={e => handleSubmit(e)} />
         </form>

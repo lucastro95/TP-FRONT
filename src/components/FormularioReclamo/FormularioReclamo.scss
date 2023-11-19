@@ -1,22 +1,26 @@
 .form {
     width: 80%;
-    height: auto;
     padding: 1.5rem;
     margin: 1rem 0;
-    background-color: var(--light-blue-transparent);
+    background-color: var(--dark-blue-transparent);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    
     @media (min-width: 768px) {
         width: 50%;
+        height: 80vh;
         padding: 3rem;
     }
 
     &__title {
-        color: var(--white);
+        color: var(--light-blue);
         margin: 1rem 0 2rem 0;
+
+        @media (min-width: 768px) {
+            font-size: 2rem;
+        }
     }
 
     &__opcion {
@@ -30,30 +34,33 @@
         }
 
         label {
-            color: var(--dark-blue);
+            color: var(--light-blue);
             margin-bottom: .3rem;
         }
 
         .select {
             padding: .2rem .5rem;
-            background-color: var(--gray);
+            background-color: transparent;
             border: none;
-            color: var(--medium-blue);
+            border-bottom: 2px solid var(--light-blue);
+            color: var(--white);
         }
 
         .input {
-            padding: .2rem .5rem;
-            background-color: var(--gray);
+            padding: .3rem .7rem;
+            background-color: transparent;
             border: none;
-            color: var(--medium-blue);
+            border-bottom: 2px solid var(--light-blue);
+            color: var(--white);
         }
 
         .textarea {
             height: 5rem;
             padding: .2rem .5rem;
-            background-color: var(--gray);
+            background-color: transparent;
             border: none;
-            color: var(--medium-blue);
+            border-bottom: 2px solid var(--light-blue);
+            color: var(--white);
         }
     }
 }
