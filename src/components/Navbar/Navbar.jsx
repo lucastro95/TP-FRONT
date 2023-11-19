@@ -12,16 +12,17 @@ import { useNavigate } from 'react-router-dom'
 const Navbar = ({ options, admin }) => {
     const [isOpen, setOpen] = useState(false)
     const navigate = useNavigate();
-    const { client } = useClient();
+    const { client, setClient } = useClient();
 
     const handleSumbit = () => {
         localStorage.clear();
+        setClient(null);
         navigate('/');
     }
 
     function capitalizarPrimeraLetra(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
-      }
+    }
 
     return (
         <>

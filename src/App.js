@@ -8,7 +8,7 @@ function App() {
   const { setClient } = useClient();
 
   useEffect(() => {
-    async function verificoClient() {
+    function verificoClient() {
       const storage = localStorage.getItem('user')
       if( storage !==  null){
           const usuario = JSON.parse(storage)

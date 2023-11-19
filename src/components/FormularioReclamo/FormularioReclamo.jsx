@@ -24,26 +24,29 @@ const FormularioReclamo = () => {
 
     const handleInput = (e) => {
         const { name, value } = e.target
-        if (name === 'unidad') {
-            const selectedIndex = e.target.selectedIndex;
-            const unidadSeleccionada = unidades[selectedIndex - 1]; 
-            const unidadData = {
-                piso: unidadSeleccionada.piso,
-                numero: unidadSeleccionada.numero,
-            };
-
-            data.edificio.codigo = unidadSeleccionada.edificio.codigo
+        if(value !== "Elegir unidad"){
+            if (name === 'unidad') {
+                const selectedIndex = e.target.selectedIndex;
+                const unidadSeleccionada = unidades[selectedIndex - 1]; 
+                const unidadData = {
+                    piso: unidadSeleccionada.piso,
+                    numero: unidadSeleccionada.numero,
+                };
     
-            setData(prevData => ({
-                ...prevData,
-                [name]: unidadData
-            }));
-        } else {
-            setData(prevData => ({
-                ...prevData,
-                [name]: value
-            }));
+                data.edificio.codigo = unidadSeleccionada.edificio.codigo
+        
+                setData(prevData => ({
+                    ...prevData,
+                    [name]: unidadData
+                }));
+            } else {
+                setData(prevData => ({
+                    ...prevData,
+                    [name]: value
+                }));
+            }
         }
+
     }
 
     const handleSubmit = async (e) => {
@@ -99,7 +102,6 @@ const FormularioReclamo = () => {
             .then((response) => response.json())
             .catch((error) => console.error("Error:", error))
             .then((response) => console.log("Success:", response))
-
     }
 
     return (
@@ -108,10 +110,11 @@ const FormularioReclamo = () => {
             <div className="form__opcion">
                 <label htmlFor="unidad">Unidad:</label>
                 <select className='select' name="unidad" id="unidad" onChange={handleInput}>
-                    {
+                {
                         (loading ? <Loader/>:
                         (
                             <>
+                            <option id="unidad">Elegir unidad</option>
                             {
                                 unidades.map((unidad) => (
                                     <option id="unidad">Edificio:{unidad.edificio.codigo}  piso:{unidad.piso}  numero:{unidad.numero}</option>
