@@ -72,12 +72,12 @@ const Login = () => {
             const storage = localStorage.getItem('user')
             if( storage !==  null){
                 const usuario = JSON.parse(storage)
-
+                console.log(usuario)
                 if(usuario.mail === 'admin@borcelle.com'){
-                    setClient({usuario, admin: true });
+                    setClient({...usuario, admin: true });
                     navigate('./admin/home')
                 } else {
-                    setClient({usuario, admin: false });
+                    setClient({...usuario, admin: false });
                     navigate('./home')
                 }
 
