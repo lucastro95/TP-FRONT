@@ -9,7 +9,7 @@ import Loader from '../components/Loader/Loader'
 const Reclamo = () => {
     const navigate = useNavigate()
 
-    let id = 'DNI39076419'
+    let id = JSON.parse(localStorage.getItem('user'))  // Documento
 
     const handleNuevoReclamo = () => {
         navigate('/reclamos/nuevo')
@@ -21,7 +21,7 @@ const Reclamo = () => {
     useEffect(() => {
         async function fetchReclamos() {
             try{
-                const response = await fetch(`https://localhost:8080/reclamos/persona:${id}`)
+                const response = await fetch(`https://localhost:8080/reclamos/persona:${id.documento}`)
                 
                 if(!response){
                     throw new Error("Error")
@@ -29,7 +29,6 @@ const Reclamo = () => {
 
                 const data = await response.json()
                 setReclamos(data)
-                console.log(reclamos);
                 setLoading(false)
 
             }catch(error){
@@ -38,7 +37,7 @@ const Reclamo = () => {
             }
         }
         fetchReclamos()
-    }, [id])
+    }, [id.documento])
 
     return (
         <>

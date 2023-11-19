@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import './Login.scss';
@@ -9,14 +9,14 @@ import { useClient } from '../context/UseContext.jsx';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useState([]);
+
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         mail: '',
         password: '',
     });
 
-    const { setClient } = useClient();
+    const { client, setClient } = useClient();
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -43,7 +43,6 @@ const Login = () => {
                 throw new Error('error');
             }
             const res = await response.json();
-            setUser(res);
 
             if (res.mail === '') {
                 Swal.fire({
@@ -59,6 +58,7 @@ const Login = () => {
                     setClient({ ...res, admin: false });
                     navigate('./home')
                 }
+                localStorage.setItem('user', JSON.stringify(res));
             }
         } catch (error) {
             console.error('Error:', error);
@@ -66,6 +66,26 @@ const Login = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        async function verificoClient() {
+            const storage = localStorage.getItem('user')
+            if( storage !==  null){
+                const usuario = JSON.parse(storage)
+
+                if(usuario.mail === 'admin@borcelle.com'){
+                    setClient({usuario, admin: true });
+                    navigate('./admin/home')
+                } else {
+                    setClient({usuario, admin: false });
+                    navigate('./home')
+                }
+
+            } 
+            
+        }
+        verificoClient()
+    }, [navigate, setClient])
 
     return (
         <main className="login">

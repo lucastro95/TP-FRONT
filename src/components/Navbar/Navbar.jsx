@@ -6,12 +6,18 @@ import logo from '../../assets/logo.png'
 import { GoTriangleDown } from 'react-icons/go'
 import { IconContext } from 'react-icons'
 import { useClient } from '../../context/UseContext';
+import { useNavigate } from 'react-router-dom'
 
 
 const Navbar = ({ options, admin }) => {
     const [isOpen, setOpen] = useState(false)
-
+    const navigate = useNavigate();
     const { client } = useClient();
+
+    const handleSumbit = () => {
+        localStorage.clear();
+        navigate('/');
+    }
 
     function capitalizarPrimeraLetra(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -28,7 +34,7 @@ const Navbar = ({ options, admin }) => {
                     <GoTriangleDown />
                 </IconContext.Provider>;
                 <div className="profile__option">
-                    <button className="profile__option__btn">Cerrar sesión</button>
+                    <button className="profile__option__btn" onClick={handleSumbit}>Cerrar sesión</button>
                 </div>
             </div>
             <nav className={isOpen ? 'navbar active' : 'navbar'}>
