@@ -19,7 +19,6 @@ const FormularioReclamo = () => {
         },
         ubicacion: "",
         descripcion: "",
-        imagen: null
     })
 
     const handleInput = (e) => {
@@ -134,10 +133,6 @@ const FormularioReclamo = () => {
             <div className="form__opcion">
                 <label htmlFor="descripcion">Descripción:</label>
                 <input className='textarea' type="textarea" name="descripcion" id="descripcion" onChange={handleInput} />
-            </div>
-            <div className="form__opcion">
-                <label htmlFor="imagenes">Imágenes:</label>
-                <input className='input' type="text" name="ubicacion" id="ubicacion" onChange={handleInput} />
             </div>
             <Boton msg='Iniciar Reclamo' action={e => handleSubmit(e)} />
         </form>
