@@ -11,6 +11,7 @@ const ReclamoCard = ({admin, reclamo}) => {
         tipo: "JPG",
     }
 
+
     const popupPersona = () => {
         Swal.fire({
             title: "Ingresar URL Imagen",
@@ -61,6 +62,21 @@ const ReclamoCard = ({admin, reclamo}) => {
         popupPersona()
     }
 
+    const handleEliminarReclamo = (e) => {
+      fetch(`https://localhost:8080/reclamos/eliminar/${reclamo.numero}`, {
+            method: "DELETE",
+        })
+            .catch((error) => console.error("Error:", error))
+            .then((response) => 
+            {
+                Swal.fire({
+                    title: "Operación completada con éxito",
+                    icon: 'success'
+                  });
+            }
+            )
+    }
+
     return (
         <>
             <div className="card">
@@ -75,7 +91,9 @@ const ReclamoCard = ({admin, reclamo}) => {
                     <p className='card__container_desc'><span>Unidad:</span> piso {reclamo.unidad.piso} - dpto {reclamo.unidad.numero}</p>
                     <p className='card__container_desc'><span>Descripción:</span> {reclamo.descripcion}</p>
                     {admin && <p className='card__container_desc'><span>Persona:</span> {reclamo.usuario.documento}</p>}
-                    <Boton  action={e => handleAgregarImg(e)}  msg={"Agregar Imagen"} />
+                    { !admin && <Boton  action={e => handleAgregarImg(e)}  msg={"Agregar Imagen"} />}
+                    { !admin && <Boton  action={e => handleEliminarReclamo(e)}  msg={"Eliminar"} />}
+                    
                 </div>
             </div>
         </>

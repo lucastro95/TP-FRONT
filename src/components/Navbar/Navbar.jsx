@@ -16,7 +16,7 @@ const Navbar = ({ options, admin }) => {
 
     const handleSumbit = () => {
         localStorage.clear();
-        setClient(null);
+        setClient({});
         navigate('/');
     }
 

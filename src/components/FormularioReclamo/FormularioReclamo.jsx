@@ -100,7 +100,14 @@ const FormularioReclamo = () => {
         })
             .then((response) => response.json())
             .catch((error) => console.error("Error:", error))
-            .then((response) => console.log("Success:", response))
+            .then((response) => 
+            {
+                Swal.fire({
+                    title: "Operación completada con éxito",
+                    icon: 'success'
+                  });
+            }
+            )
     }
 
     return (

@@ -23,6 +23,17 @@ const Login = () => {
         setData({ ...data, [name]: value });
     };
 
+    useEffect(() => {
+        // console.log(Object.keys(client).length)
+        if ( Object.keys(client).length !== 0 ){
+            if(client.admin){
+                navigate('./admin/home')
+            } else{
+                navigate('./home')
+            }
+        }
+    }, [client, navigate])
+
     const handleSumbit = async (e) => {
         e.preventDefault();
 
@@ -67,15 +78,6 @@ const Login = () => {
         }
     };
 
-    useEffect(() => {
-        if ( client !== null){
-            if(client.admin){
-                navigate('./admin/home')
-            } else{
-                navigate('./home')
-            }
-        }
-    }, [client, navigate])
 
     return (
         <main className="login">

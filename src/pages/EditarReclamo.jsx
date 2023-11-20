@@ -5,12 +5,14 @@ import Navbar from '../components/Navbar/Navbar'
 import Boton from '../components/Boton/Boton'
 import { useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import Loader from '../components/Loader/Loader'
 
 const EditarReclamo = () => {
     const { id } = useParams()
 
     const [option, setOption] = useState('')   
     const [reclamo, setReclamo] = useState() 
+    const [loading, setLoading] = useState(true)
 
     const handleSelect = (e) => {
         setOption(e.target.value)
@@ -19,18 +21,22 @@ const EditarReclamo = () => {
     useEffect(() => {
         async function fetchReclamo() {
             try {
+                setLoading(true)
                 const response = await fetch(`https://localhost:8080/reclamos/${id}`)
                 if (!response.ok) {
                     throw new Error('error')
                 }
                 const data = await response.json()
                 setReclamo(data)
+                setLoading(false)
+                console.log(data)
             } catch (error) {
                 console.error("Error:", error)
+                setLoading(false)
             }
         }
         fetchReclamo()
-    }, [])
+    }, [id])
     
 
     const handleSubmit = async (e) => {
@@ -44,7 +50,7 @@ const EditarReclamo = () => {
               
         } else {
             try{
-                const response = await fetch(`http://localhost:8080/reclamos/cambiarEstado:${id}/estado=${option}`, {
+                const response = await fetch(`https://localhost:8080/reclamos/cambiarEstado:${id}/estado=${option}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"
@@ -66,22 +72,26 @@ const EditarReclamo = () => {
 
   return (
     <>
-    <Navbar options={['home', 'reclamos', 'personas']} admin={true}/>
-    <main className='reclamo'>
-        <h2 className='reclamo__title'>Reclamo n° {id}</h2>
-        <p><span>Estado: </span>{reclamo.estado}</p>
-        <form className='reclamo__form' onSubmit={handleSubmit}>
-        <select className='reclamo__form__input' name="estado" id="estado" onChange={handleSelect}>
-            <option value="">Eliga un estado</option>
-            <option value="1">Abierto</option>
-            <option value="2">En proceso</option>
-            <option value="3">Desestimado</option>
-            <option value="4">Anulado</option>
-            <option value="5">Terminado</option>
-        </select>
-        <Boton msg={'Cambiar Estado'} />
-        </form>
-    </main>
+     <Navbar options={['home', 'reclamos', 'personas']} admin={true}/>
+    { loading ? <Loader /> : (
+           
+            <main className='reclamo'>
+                <h2 className='reclamo__title'>Reclamo n° {id}</h2>
+                <p><span>Estado: </span>{reclamo.estado}</p>
+                <form className='reclamo__form' onSubmit={handleSubmit}>
+                <select className='reclamo__form__input' name="estado" id="estado" onChange={handleSelect}>
+                    <option value="">Eliga un estado</option>
+                    <option value="1">Abierto</option>
+                    <option value="2">En proceso</option>
+                    <option value="3">Desestimado</option>
+                    <option value="4">Anulado</option>
+                    <option value="5">Terminado</option>
+                </select>
+                <Boton msg={'Cambiar Estado'} />
+                </form>
+            </main>
+            
+        )}
     </>
   )
 }
