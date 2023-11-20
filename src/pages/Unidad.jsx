@@ -13,7 +13,7 @@ const Unidad = () => {
     const [duenios, setDuenios] = useState([])
     const [inquilinos, setInquilinos] = useState([])
 
-    const [data, setData] = useState({
+    const [data] = useState({
             id: "",
             numero: numero,
             piso: piso,

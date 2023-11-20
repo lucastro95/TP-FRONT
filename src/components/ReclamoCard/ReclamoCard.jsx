@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import './ReclamoCard.scss'
 import Boton from '../Boton/Boton'
 import Swal from 'sweetalert2'
