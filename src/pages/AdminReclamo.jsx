@@ -5,6 +5,7 @@ import ReclamoCard from '../components/ReclamoCard/ReclamoCard'
 import Boton from '../components/Boton/Boton'
 import Loader from '../components/Loader/Loader'
 import Swal from 'sweetalert2'
+import { Link } from 'react-router-dom'
 
 const AdminReclamo = () => {
     const [reclamos, setReclamos] = useState([])
@@ -89,17 +90,21 @@ const AdminReclamo = () => {
                         (
                             Array.isArray(reclamos) ?
                                 reclamos.map((reclamo) => (
-                                    <ReclamoCard
+                                    <Link to={`/admin/reclamos/${reclamo.numero}`}>
+                                        <ReclamoCard
                                         admin={true}
                                         reclamo={reclamo}
                                         key={reclamo.numero}
                                     />
+                                    </Link>
                                 )) :
+                                <Link to={`/admin/reclamos/${reclamos.numero}`}>
                                 <ReclamoCard
                                     admin={true}
                                     reclamo={reclamos}
                                     key={reclamos.numero}
                                 />
+                                </Link>
                         )}
                 </div>
             </main>
