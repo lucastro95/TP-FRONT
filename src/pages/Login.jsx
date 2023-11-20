@@ -16,7 +16,7 @@ const Login = () => {
         password: '',
     });
 
-    const { setClient } = useClient();
+    const { client, setClient } = useClient();
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -68,24 +68,14 @@ const Login = () => {
     };
 
     useEffect(() => {
-        async function verificoClient() {
-            const storage = localStorage.getItem('user')
-            if( storage !==  null){
-                const usuario = JSON.parse(storage)
-                console.log(usuario)
-                if(usuario.mail === 'admin@borcelle.com'){
-                    setClient({...usuario, admin: true });
-                    navigate('./admin/home')
-                } else {
-                    setClient({...usuario, admin: false });
-                    navigate('./home')
-                }
-
-            } 
-            
+        if ( client !== null){
+            if(client.admin){
+                navigate('./admin/home')
+            } else{
+                navigate('./home')
+            }
         }
-        verificoClient()
-    }, [navigate, setClient])
+    }, [client, navigate])
 
     return (
         <main className="login">
