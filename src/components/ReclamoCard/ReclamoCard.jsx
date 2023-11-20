@@ -6,10 +6,10 @@ import Swal from 'sweetalert2'
 
 const ReclamoCard = ({admin, reclamo}) => {
 
-    const [ data, setImagen] = useState({
+    const data = {
         direccion: "",
         tipo: "JPG",
-    })
+    }
 
     const popupPersona = () => {
         Swal.fire({
