@@ -63,8 +63,34 @@ const AdminReclamo = () => {
                 fetchReclamos(`https://localhost:8080/reclamos/unidad/codigo:${unidad[0]}/piso:${unidad[1]}/numero:${unidad[2]}`)
                 break;
 
+            case "estado":
+                let estado = obtenerEstado()
+                fetchReclamos(`https://localhost:8080/reclamos/estado:${estado}`)
+                break;
+
             default:
                 break;
+        }
+    }
+
+    const obtenerEstado = () => {
+        if(form.dato === "1"){
+            return "nuevo"
+        }
+        if(form.dato === "2"){
+            return "abierto"
+        }
+        if(form.dato === "3"){
+            return "enProceso"
+        }
+        if(form.dato === "4"){
+            return "desestimado"
+        }
+        if(form.dato === "5"){
+            return "anulado"
+        }
+        else{
+            return "terminado"
         }
     }
 
@@ -81,6 +107,7 @@ const AdminReclamo = () => {
                         <option value="numero">Número</option>
                         <option value="persona">Persona</option>
                         <option value="unidad">Unidad</option>
+                        <option value="estado">Estado</option>
                     </select>
                     <input className='reclamos__form__filter' name='dato' type="text" value={form.dato} onChange={handleInput} />
                     <Boton action={e => handleSumbit(e)} msg={"Filtrar"} />
