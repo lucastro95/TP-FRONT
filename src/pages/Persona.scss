@@ -7,6 +7,16 @@
     flex-direction: column;
     align-items: center;
 
+    @media (min-width: 768px) {
+        align-items: baseline;
+        padding-left: 28%;
+    }
+
+    &__title {
+        font-size: 2rem;
+        color: var(--white);
+    }
+
     &__botones {
         display: flex;
         flex-direction: column;

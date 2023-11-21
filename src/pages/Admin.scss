@@ -28,6 +28,27 @@
         }
     }
 
+    &__button {
+        background-color: var(--light-blue);
+        padding: .5rem 1rem;
+        border: none;
+        color: var(--white);
+        font-size: 1rem;
+        margin-bottom: 2rem; 
+        transition: .2s all;
+
+        &:hover {
+            background-color: var(--dark-blue);
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            margin-left: 2rem;
+        }
+
+        
+    }
+
     &__container {
         display: flex;
         align-items: center;

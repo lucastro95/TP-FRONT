@@ -26,10 +26,7 @@ const Persona = () => {
       preConfirm: async (persona) => {
         try {
           await fetch(`https://localhost:8080/personas/eliminar/${persona}`, {
-              method: "PUT",
-              headers: {
-                  "Content-Type": "application/json"
-              }
+              method: "DELETE"
           });
         } catch (error) {
           Swal.showValidationMessage(`
@@ -53,6 +50,7 @@ const Persona = () => {
     <>
         <Navbar options={['home', 'reclamos', 'personas']} admin={true}/>
         <main className='persona'>
+          <h2 className='persona__title'>Personas</h2>
             <div className="persona__botones">
               <Boton msg='Agregar Persona' action={e => agregarPersona(e)}/>
               <Boton msg='Eliminar Persona' action={e => eliminarPersona(e)}/>

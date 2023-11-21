@@ -84,7 +84,7 @@ const Admin = () => {
           <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
           <main className='admin'>
             <h1 className='admin__title'>Una nueva manera de administrar</h1>
-            <button className='' type="submit" onClick={handleAgregarEdificio}>Agregar Edificio</button>
+            <button className='admin__button' type="submit" onClick={handleAgregarEdificio}>Agregar Edificio</button>
             <div className='admin__container'>
               {
                 edificios.map((edificio) => (
