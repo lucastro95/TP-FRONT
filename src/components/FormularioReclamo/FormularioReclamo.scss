@@ -38,12 +38,17 @@
             margin-bottom: .3rem;
         }
 
-        .select {
+        &__select {
             padding: .2rem .5rem;
             background-color: transparent;
             border: none;
             border-bottom: 2px solid var(--light-blue);
             color: var(--white);
+
+            option {
+                background-color: var(--dark-blue);
+                color: var(--white);
+            }
         }
 
         .input {

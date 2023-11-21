@@ -41,12 +41,13 @@
 
     &__option {
         width: 100%;
-        padding: 1rem 2rem;
+        padding: .5rem 2rem;
         position: absolute;
         top: 2.5rem;
         right: 1rem;
         background-color: var(--light-blue-transparent);
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         translate: 0 -5rem;
@@ -60,6 +61,7 @@
             color: var(--white);
             display: inline-block;
             position: relative;
+            margin: 1rem 0;
 
             &::after {
                 content: '';

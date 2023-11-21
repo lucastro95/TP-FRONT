@@ -7,17 +7,60 @@ import { GoTriangleDown } from 'react-icons/go'
 import { IconContext } from 'react-icons'
 import { useClient } from '../../context/UseContext';
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 
 const Navbar = ({ options, admin }) => {
     const [isOpen, setOpen] = useState(false)
     const navigate = useNavigate();
     const { client, setClient } = useClient();
+    const nueva = {
+        mail: client.mail,
+        contrasenia: ''
+    }
 
     const handleSumbit = () => {
         localStorage.clear();
         setClient({});
         navigate('/');
+    }
+
+    const handleContrasenia = () => {
+        Swal.fire({
+            title: "Ingrese la nueva contraseña",
+            input: "password",
+            inputAttributes: {
+              autocapitalize: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Cambiar",
+            showLoaderOnConfirm: true,
+            preConfirm: async (contrasenia) => {
+              try {
+                nueva.contrasenia = contrasenia
+                const response = await fetch(`https://localhost:8080/personas/actualizar`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(nueva),
+                });
+              } catch (error) {
+                Swal.showValidationMessage(`
+                  Request failed: ${error}
+                `);
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Contraseña cambiada con éxito",
+                icon: 'success'
+              });
+            
+            }
+          });
     }
 
     function capitalizarPrimeraLetra(str) {
@@ -36,6 +79,7 @@ const Navbar = ({ options, admin }) => {
                 </IconContext.Provider>;
                 <div className="profile__option">
                     <button className="profile__option__btn" onClick={handleSumbit}>Cerrar sesión</button>
+                    {!admin && <button className="profile__option__btn" onClick={handleContrasenia}>Cambiar Contraseña</button>}
                 </div>
             </div>
             <nav className={isOpen ? 'navbar active' : 'navbar'}>

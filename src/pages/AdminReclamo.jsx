@@ -73,16 +73,16 @@ const AdminReclamo = () => {
         <>
             <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
             <main className='reclamos'>
-                <form className='reclamos__table'>
-                    <h2 className='reclamos__table__title'>Filtrar por:</h2>
-                    <select className='reclamos__table__filter' name="tipo" id="tipo" onChange={handleInput} value={form.tipo}>
+                <form className='reclamos__form'>
+                    <h2 className='reclamos__form__title'>Filtrar por:</h2>
+                    <select className='reclamos__form__filter' name="tipo" id="tipo" onChange={handleInput} value={form.tipo}>
                         <option value="">Tipo de filtro</option>
                         <option value="edificio">Edificio</option>
                         <option value="numero">Número</option>
                         <option value="persona">Persona</option>
                         <option value="unidad">Unidad</option>
                     </select>
-                    <input className='reclamos__table__filter' name='dato' type="text" value={form.dato} onChange={handleInput} />
+                    <input className='reclamos__form__filter' name='dato' type="text" value={form.dato} onChange={handleInput} />
                     <Boton action={e => handleSumbit(e)} msg={"Filtrar"} />
                 </form>
                 <div className="reclamos__table">

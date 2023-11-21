@@ -13,6 +13,7 @@ const EditarReclamo = () => {
     const [option, setOption] = useState('')   
     const [reclamo, setReclamo] = useState() 
     const [loading, setLoading] = useState(true)
+    const [img, setImg] = useState()
 
     const handleSelect = (e) => {
         setOption(e.target.value)
@@ -35,7 +36,24 @@ const EditarReclamo = () => {
                 setLoading(false)
             }
         }
+        async function fetchImagenes() {
+            try {
+                setLoading(true)
+                const response = await fetch(`https://localhost:8080/reclamos/imagenes:${id}`)
+                if (!response.ok) {
+                    throw new Error('error')
+                }
+                const data = await response.json()
+                setImg(data)
+                setLoading(false)
+                console.log(data)
+            } catch (error) {
+                console.error("Error:", error)
+                setLoading(false)
+            }
+        }
         fetchReclamo()
+        fetchImagenes()
     }, [id])
     
 
@@ -77,7 +95,24 @@ const EditarReclamo = () => {
            
             <main className='reclamo'>
                 <h2 className='reclamo__title'>Reclamo n° {id}</h2>
-                <p><span>Estado: </span>{reclamo.estado}</p>
+                <div className='reclamo__info'>
+                    <p className='reclamo__info__item'><span>Estado: </span>{reclamo.estado}</p>
+                    <p className='reclamo__info__item'><span>Edificio: </span>{reclamo.edificio.codigo} - {reclamo.edificio.nombre}</p>
+                    <p className='reclamo__info__item'><span>Unidad: </span>piso {reclamo.unidad.piso} - número {reclamo.unidad.numero}</p>
+                    <p className='reclamo__info__item'><span>Ubicación: </span>{reclamo.ubicacion}</p>
+                    <p className='reclamo__info__item'><span>Descripción: </span>{reclamo.descripcion}</p>
+                </div>
+                {img && (
+                    <div className="reclamo__img">
+                        {
+                            Array.isArray(img) ?
+                            img.map((i) => (
+                                <img className='reclamo__img__item' src={i.direccion} alt='imagen reclamo' />
+                            )) :
+                            <img className='reclamo__img__item' src={img.direccion} alt='imagen reclamo' />
+                        }
+                    </div>
+                )}
                 <form className='reclamo__form' onSubmit={handleSubmit}>
                 <select className='reclamo__form__input' name="estado" id="estado" onChange={handleSelect}>
                     <option value="">Eliga un estado</option>

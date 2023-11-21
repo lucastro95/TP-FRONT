@@ -115,7 +115,7 @@ const FormularioReclamo = () => {
             <h2 className='form__title'>Nuevo Reclamo</h2>
             <div className="form__opcion">
                 <label htmlFor="unidad">Unidad:</label>
-                <select className='select' name="unidad" id="unidad" onChange={handleInput}>
+                <select className='form__opcion__select' name="unidad" id="unidad" onChange={handleInput}>
                 {
                         (loading ? <Loader/>:
                         (
