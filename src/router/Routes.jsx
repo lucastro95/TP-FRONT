@@ -12,6 +12,7 @@ import UnidadEdificio from "../pages/UnidadEdificio";
 import AdminReclamo from "../pages/AdminReclamo";
 import EditarReclamo from "../pages/EditarReclamo";
 import Unidad from "../pages/Unidad";
+import AgregarPersona from "../pages/AgregarPersona";
 
 const Routes = () => {
   
@@ -26,6 +27,7 @@ const Routes = () => {
             <Route path= '/admin/unidades/:id' element={<UnidadEdificio />}></Route>
             <Route path= '/admin/unidad/:id/:piso/:numero' element={<Unidad />}></Route>
             <Route path= '/admin/personas' element={<Persona />}></Route>
+            <Route path= '/admin/personas/nueva' element={<AgregarPersona />}></Route>
             <Route path= '/admin/reclamos' element={<AdminReclamo />}></Route>
             <Route path= '/admin/reclamos/:id' element={<EditarReclamo />}></Route>
         </ReactDomRoutes >

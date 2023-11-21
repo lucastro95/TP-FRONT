@@ -1,14 +1,52 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Persona.scss'
 
 import Navbar from '../components/Navbar/Navbar'
 import Boton from '../components/Boton/Boton'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const Persona = () => {
-  const [persona, setPersona] = useState('')
+  const navigate = useNavigate()
 
-  const handleInput = (e) => {
-    setPersona(e.target.value)
+  const agregarPersona = () => {
+    navigate('/admin/personas/nueva')
+  }
+
+  const eliminarPersona = () => {
+    Swal.fire({
+      title: "Ingrese el mail de la persona",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      showLoaderOnConfirm: true,
+      preConfirm: async (persona) => {
+        try {
+          await fetch(`https://localhost:8080/personas/eliminar/${persona}`, {
+              method: "PUT",
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+        } catch (error) {
+          Swal.showValidationMessage(`
+            Request failed: ${error}
+          `);
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Persona eliminada con éxito",
+          icon: 'success'
+        });
+      
+      }
+    });
   }
 
   return (
@@ -16,14 +54,9 @@ const Persona = () => {
         <Navbar options={['home', 'reclamos', 'personas']} admin={true}/>
         <main className='persona'>
             <div className="persona__botones">
-              <Boton msg='Agregar Persona'/>
-              <Boton msg='Eliminar Persona'/>
+              <Boton msg='Agregar Persona' action={e => agregarPersona(e)}/>
+              <Boton msg='Eliminar Persona' action={e => eliminarPersona(e)}/>
             </div>
-            <form className='persona__form'>
-              <h2 className='persona__form__title'>Buscar persona</h2>
-              <input type="text" className='persona__form__input' onChange={handleInput}/>
-              <Boton msg='Buscar'/>
-            </form>
         </main>
     </>
   )

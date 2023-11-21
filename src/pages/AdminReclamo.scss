@@ -1,5 +1,9 @@
 .reclamos {
 
+    @media (min-width: 768px) {
+        padding-left: 25%;
+    }
+
     &__form {
         width: 100%;
         display: flex;
