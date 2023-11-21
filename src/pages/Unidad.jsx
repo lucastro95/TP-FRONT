@@ -168,6 +168,40 @@ const Unidad = () => {
         }
     }
 
+    const handleEliminarUnidad = async (e) => {
+
+        Swal.fire({
+            title: "Estas seguro que desea eliminar la unidad?",
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+              try {
+                const response = await fetch(`https://localhost:8080/unidades/eliminar/codigo:${id}/piso:${piso}/numero:${numero}`, {
+                    method: "DELETE",
+                });
+                if (!response.ok) {
+                  return Swal.showValidationMessage(`
+                    ${JSON.stringify(await response.json())}
+                  `);
+                }
+              } catch (error) {
+                Swal.showValidationMessage(`
+                  Request failed: ${error}
+                `);
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            }
+          });
+    }
+
     return (
         <>
             <Navbar options={['home', 'reclamos', 'personas']} admin={true} />
@@ -189,6 +223,7 @@ const Unidad = () => {
                                 <Boton msg={'Transferir unidad'} action={e => handleTransferir(e)}/>
                                 <Boton msg={'Liberar unidad'} action={e => handleLiberar(e)}/>
                                 <Boton msg={'Habitar unidad'} action={e => handleHabitar(e)}/>
+                                <Boton msg={'Eliminar unidad'} action={e => handleEliminarUnidad(e)}/>
                             </div>
                         </>
                     )}
