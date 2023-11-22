@@ -59,7 +59,12 @@ const Unidad = () => {
         }
         fetchDuenios()
         fetchInquilinos()
-    }, [id, piso, numero])
+        if(reloadData){
+          fetchDuenios()
+          fetchInquilinos()
+          setReloadData(false)
+        }
+    }, [id, piso, numero, reloadData])
 
   const popupPersona = (url) => {
     Swal.fire({
@@ -99,7 +104,7 @@ const Unidad = () => {
           title: "Operación completada con éxito",
           icon: 'success'
         });
-
+        setReloadData(true)
       }
     });
   }
@@ -142,6 +147,7 @@ const Unidad = () => {
                 title: "Operación completada con éxito",
                 icon: 'success'
               });
+            setReloadData(true)
             setLoading(false)
         }catch(error){
             console.error("Error:", error)
@@ -167,6 +173,7 @@ const Unidad = () => {
                 title: "Operación completada con éxito",
                 icon: 'success'
               });
+            setReloadData(true)
             setLoading(false)
         }catch(error){
             console.error("Error:", error)
@@ -204,6 +211,7 @@ const Unidad = () => {
                 title: "Operación completada con éxito",
                 icon: 'success'
               });
+              navigate(`/unidades/${id}`)
             }
           });
     }
