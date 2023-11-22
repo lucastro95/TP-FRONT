@@ -6,7 +6,7 @@
     position: fixed;
     top: 1rem;
     left: 1rem;
-    z-index: 100;
+    z-index: 1000;
     transition: all 0.3s;
 
     &.active {

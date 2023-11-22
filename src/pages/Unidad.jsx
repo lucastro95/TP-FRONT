@@ -103,7 +103,12 @@ const Unidad = () => {
           });
     }
 
-    const handleAgregar = (e) => {
+    const handleAgregarDuenio = (e) => {
+        e.preventDefault()
+        popupPersona("https://localhost:8080/unidades/agregar/duenio")
+    }
+
+    const handleAgregarInquilino = (e) => {
         e.preventDefault()
         popupPersona("https://localhost:8080/unidades/agregar/inquilino")
     }
@@ -218,7 +223,8 @@ const Unidad = () => {
                                 {inquilinos.map((inquilino) => <p key={inquilino.documento} className='unidad__subtitle__item'>Nombre: {inquilino.nombre}<br />Documento: {inquilino.documento}</p>)}
                             </div>
                             <div className="unidad__botones">
-                                <Boton msg={'Agregar inquilino'} action={e => handleAgregar(e)}/>
+                                <Boton msg={'Agregar dueño'} action={e => handleAgregarDuenio(e)}/>
+                                <Boton msg={'Agregar inquilino'} action={e => handleAgregarInquilino(e)}/>
                                 <Boton msg={'Alquilar unidad'} action={e => handleAlquilar(e)}/>
                                 <Boton msg={'Transferir unidad'} action={e => handleTransferir(e)}/>
                                 <Boton msg={'Liberar unidad'} action={e => handleLiberar(e)}/>

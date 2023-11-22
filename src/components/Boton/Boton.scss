@@ -1,15 +1,17 @@
 .btn {
-    margin: 1rem 0;
-    padding: .5rem 1rem;
+    margin: 1rem;
+    padding: .7rem 1.5rem;
+    font-size: 1rem;
     background-color: var(--light-blue);
     border: 2px solid var(--dark-blue);
+    border-radius: 2rem;
     color: var(--dark-blue);
     transition: all .2s;
     position: relative;
     z-index: 100;
 
     @media (min-width: 768px) {
-        margin: 2rem 0;
+        margin: 2rem;
     }
 
     &:hover {
