@@ -18,6 +18,13 @@ const Reclamo = () => {
     const [reclamos, setReclamos] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const actualizarReclamos = (reclamoEliminado) => {
+        const reclamosActualizados = reclamos.filter(
+            (reclamo) => reclamo.numero !== reclamoEliminado.numero
+        );
+        setReclamos(reclamosActualizados);
+    };
+
     useEffect(() => {
         async function fetchReclamos() {
             try{
@@ -50,14 +57,16 @@ const Reclamo = () => {
                     <Boton msg='Nuevo Reclamo' action={event => handleNuevoReclamo(event)}/>
                 </div>
                 <div className="reclamos__table">
-                    {
-                        reclamos.map((reclamo) => (
-                            <ReclamoCard key={reclamo.id}
-                                            admin={false} 
-                                            reclamo={reclamo}
-                                            ></ReclamoCard>
-                        ))
-                    }
+                {
+                    reclamos.map((reclamo) => (
+                        <ReclamoCard
+                            key={reclamo.id}
+                            admin={false} 
+                            reclamo={reclamo}
+                            actualizarReclamos={actualizarReclamos} // Pasar la función como prop
+                        />
+                    ))
+                }
                 </div>
             </main>
         </>

@@ -3,7 +3,7 @@ import Boton from '../Boton/Boton'
 import Swal from 'sweetalert2'
 
 
-const ReclamoCard = ({admin, reclamo}) => {
+const ReclamoCard = ({admin, reclamo, actualizarReclamos}) => {
 
     const data = {
         direccion: "",
@@ -72,6 +72,7 @@ const ReclamoCard = ({admin, reclamo}) => {
                     title: "Operación completada con éxito",
                     icon: 'success'
                   });
+                  actualizarReclamos(reclamo);
             }
             )
     }
