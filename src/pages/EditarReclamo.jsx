@@ -13,6 +13,7 @@ const EditarReclamo = () => {
     const [option, setOption] = useState('')   
     const [reclamo, setReclamo] = useState() 
     const [loading, setLoading] = useState(true)
+    const [reloadData, setReloadData] = useState(false);
     const [img, setImg] = useState()
 
     const handleSelect = (e) => {
@@ -54,7 +55,12 @@ const EditarReclamo = () => {
         }
         fetchReclamo()
         fetchImagenes()
-    }, [id])
+        if(reloadData){
+            fetchReclamo()
+            fetchImagenes()
+            setReloadData(false)
+        }
+    }, [id, reloadData])
     
 
     const handleSubmit = async (e) => {
@@ -82,6 +88,7 @@ const EditarReclamo = () => {
                     title: "Operación completada con éxito",
                     icon: 'success'
                   });
+                  setReloadData(true)
             }catch(error){
                 console.error("Error:", error)
             }

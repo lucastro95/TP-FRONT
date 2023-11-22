@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import './Unidad.scss'
 import Navbar from '../components/Navbar/Navbar'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../components/Loader/Loader'
 import Boton from '../components/Boton/Boton'
 import Swal from 'sweetalert2'
 
 const Unidad = () => {
-  let { id, piso, numero } = useParams()
-
-  const [loading, setLoading] = useState(false)
-  const [duenios, setDuenios] = useState([])
-  const [inquilinos, setInquilinos] = useState([])
+    let { id, piso, numero } = useParams()
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const [duenios, setDuenios] = useState([])
+    const [inquilinos, setInquilinos] = useState([])
+    const [reloadData, setReloadData] = useState(false);
 
   const [data] = useState({
     id: "",
@@ -45,20 +46,20 @@ const Unidad = () => {
       try {
         const response = await fetch(`https://localhost:8080/unidades/inquilinos/codigo:${id}/piso:${piso}/numero:${numero}`)
 
-        if (!response.ok) {
-          throw new Error('error')
+                if (!response.ok) {
+                    throw new Error('error')
+                }
+                const data = await response.json()
+                setInquilinos(data)
+                setLoading(false)
+            } catch (error) {
+                console.error("Error:", error)
+                setLoading(false)
+            }
         }
-        const data = await response.json()
-        setInquilinos(data)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error:", error)
-        setLoading(false)
-      }
-    }
-    fetchDuenios()
-    fetchInquilinos()
-  }, [id, piso, numero])
+        fetchDuenios()
+        fetchInquilinos()
+    }, [id, piso, numero])
 
   const popupPersona = (url) => {
     Swal.fire({
@@ -84,9 +85,9 @@ const Unidad = () => {
             return Swal.showValidationMessage(`
                     ${JSON.stringify(await response.json())}
                   `);
-          }
-        } catch (error) {
-          Swal.showValidationMessage(`
+                }
+              } catch (error) {
+                Swal.showValidationMessage(`
                   Request failed: ${error}
                 `);
         }
@@ -123,55 +124,55 @@ const Unidad = () => {
     popupPersona("https://localhost:8080/unidades/transferir")
   }
 
-  const handleLiberar = async (e) => {
-    try {
-      data.persona.documento = ""
-      const response = await fetch("https://localhost:8080/unidades/liberar", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (!response) {
-        throw new Error("Error")
-      }
-      Swal.fire({
-        title: "Operación completada con éxito",
-        icon: 'success'
-      });
-      setLoading(false)
-    } catch (error) {
-      console.error("Error:", error)
-      setLoading(false)
+    const handleLiberar = async (e) => {
+        try{
+            data.persona.documento = ""
+            const response = await fetch("https://localhost:8080/unidades/liberar", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            })
+            
+            if(!response){
+                throw new Error("Error")
+            }
+            Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            setLoading(false)
+        }catch(error){
+            console.error("Error:", error)
+            setLoading(false)
+        }
     }
-  }
 
-  const handleHabitar = async (e) => {
-    try {
-      data.persona.documento = ""
-      const response = await fetch("https://localhost:8080/unidades/habitar", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (!response) {
-        throw new Error("Error")
-      }
-      Swal.fire({
-        title: "Operación completada con éxito",
-        icon: 'success'
-      });
-      setLoading(false)
-    } catch (error) {
-      console.error("Error:", error)
-      setLoading(false)
+    const handleHabitar = async (e) => {
+        try{
+            data.persona.documento = ""
+            const response = await fetch("https://localhost:8080/unidades/habitar", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            })
+            
+            if(!response){
+                throw new Error("Error")
+            }
+            Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            setLoading(false)
+        }catch(error){
+            console.error("Error:", error)
+            setLoading(false)
+        }
     }
-  }
 
   const handleEliminarUnidad = async (e) => {
 
@@ -194,19 +195,18 @@ const Unidad = () => {
           Swal.showValidationMessage(`
                   Request failed: ${error}
                 `);
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Operación completada con éxito",
-          icon: 'success'
-        });
-        
-      }
-    });
-  }
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Operación completada con éxito",
+                icon: 'success'
+              });
+            }
+          });
+    }
 
   return (
     <>

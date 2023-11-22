@@ -4,10 +4,12 @@ import Boton from '../Boton/Boton'
 import Loader from '../Loader/Loader'
 import { useClient } from '../../context/UseContext';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom'
 
 const FormularioReclamo = () => {
 
     const { client } = useClient();
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         usuario: {
@@ -106,6 +108,7 @@ const FormularioReclamo = () => {
                     title: "Operación completada con éxito",
                     icon: 'success'
                   });
+                  navigate('/reclamos')
             }
             )
     }
