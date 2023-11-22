@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import './Unidad.scss'
 import Navbar from '../components/Navbar/Navbar'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../components/Loader/Loader'
 import Boton from '../components/Boton/Boton'
 import Swal from 'sweetalert2'
 
 const Unidad = () => {
     let { id, piso, numero } = useParams()
-
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [duenios, setDuenios] = useState([])
     const [inquilinos, setInquilinos] = useState([])
+    const [reloadData, setReloadData] = useState(false);
 
     const [data] = useState({
             id: "",
@@ -58,7 +59,13 @@ const Unidad = () => {
         }
         fetchDuenios()
         fetchInquilinos()
-    }, [id, piso, numero])
+
+        if(reloadData){
+            fetchDuenios()
+            fetchInquilinos()
+            setReloadData(false);
+        }
+    }, [reloadData, id, piso, numero])
 
     const popupPersona = (url) => {
         Swal.fire({
@@ -85,6 +92,7 @@ const Unidad = () => {
                     ${JSON.stringify(await response.json())}
                   `);
                 }
+                setReloadData(true)
               } catch (error) {
                 Swal.showValidationMessage(`
                   Request failed: ${error}
@@ -146,6 +154,7 @@ const Unidad = () => {
             console.error("Error:", error)
             setLoading(false)
         }
+        setReloadData(true);
     }
 
     const handleHabitar = async (e) => {
@@ -171,6 +180,7 @@ const Unidad = () => {
             console.error("Error:", error)
             setLoading(false)
         }
+        setReloadData(true);
     }
 
     const handleEliminarUnidad = async (e) => {
@@ -203,8 +213,11 @@ const Unidad = () => {
                 title: "Operación completada con éxito",
                 icon: 'success'
               });
+              navigate(`/admin/unidades/${id}`)
             }
           });
+          setReloadData(true);
+          
     }
 
     return (

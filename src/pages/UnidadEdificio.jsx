@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './UnidadEdificio.scss'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import UnidadRow from '../components/UnidadRow/UnidadRow';
 import Loader from '../components/Loader/Loader';
@@ -9,8 +9,10 @@ import Swal from 'sweetalert2';
 
 const UnidadEdificio = () => {
     let { id } = useParams()
-
+    const navigate = useNavigate()
     const [unidades, setUnidades] = useState([])
+    const [reloadData, setReloadData] = useState(false);
+
     const [loading, setLoading] = useState(true)
     const unidad = {
         edificio: {
@@ -37,7 +39,12 @@ const UnidadEdificio = () => {
             }
         }
         fetchEdificios()
-    }, [id])
+
+        if(reloadData){
+          fetchEdificios()
+          setReloadData(false)
+        }
+    }, [id, reloadData])
 
     const handleAgregarUnidad = (e) => {
         Swal.fire({
@@ -62,6 +69,7 @@ const UnidadEdificio = () => {
                     ${JSON.stringify(await response.json())}
                   `);
                 }
+                setReloadData(true)
               } catch (error) {
                 Swal.showValidationMessage(`
                   Request failed: ${error}
@@ -110,7 +118,9 @@ const handleEliminarEdificio = (e) => {
             title: "Operación completada con éxito",
             icon: 'success'
           });
+          navigate("/")
         }
+        
       });
 }
 

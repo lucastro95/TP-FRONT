@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 
 const Admin = () => {
   const [edificios, setEdificios] = useState([])
+  const [reloadData, setReloadData] = useState(false);
   const [loading, setLoading] = useState(true)
   const edificio = {
     nombre:"",
@@ -30,7 +31,13 @@ const Admin = () => {
       }
     }
     fetchEdificios()
-  }, [])
+
+    if(reloadData){
+      fetchEdificios()
+      setReloadData(false)
+    }
+
+  }, [reloadData])
 
 
   const handleAgregarEdificio = (e) => {
@@ -59,6 +66,7 @@ const Admin = () => {
               ${JSON.stringify(await response.json())}
             `);
           }
+          setReloadData(true)
         } catch (error) {
           Swal.showValidationMessage(`
             Request failed: ${error}
