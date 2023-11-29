@@ -5,7 +5,12 @@ import Boton from '../components/Boton/Boton'
 import Swal from 'sweetalert2'
 
 const AgregarPersona = () => {
-    const [persona, setPersona] = useState({})
+    const [persona, setPersona] = useState({
+        nombre: '',
+        documento: '',
+        mail: '',
+        password: ''
+    })
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -20,28 +25,29 @@ const AgregarPersona = () => {
                 text: 'Se deben llenar todos los campos',
                 icon: 'error',
             });
-            return;
+        } else {
+            try {
+                const response = await fetch(`https://localhost:8080/personas/registrar`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(persona),
+                });
+                if (!response.ok) {
+                    throw new Error('error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                Swal.fire({
+                    title: "Persona agregada con éxito",
+                    icon: 'success'
+                });
+            }
         }
 
-        try {
-            const response = await fetch(`https://localhost:8080/personas/registrar`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(persona),
-            });
-            if (!response.ok) {
-                throw new Error('error');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        } finally {
-            Swal.fire({
-                title: "Persona agregada con éxito",
-                icon: 'success'
-            });
-        }
+
     }
 
   return (
