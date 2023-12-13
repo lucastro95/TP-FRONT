@@ -19,7 +19,7 @@ const AgregarPersona = () => {
 
     const handleAgregar = async (e) => {
         e.preventDefault()
-        if (persona.nombre === '' || persona.documento === '' || persona.mail === '' || persona.password === '') {
+        if (persona.nombre === '' || persona.documento === '' || persona.mail === '') {
             Swal.fire({
                 title: 'Error',
                 text: 'Se deben llenar todos los campos',
